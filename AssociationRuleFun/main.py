@@ -49,6 +49,29 @@ def check_row_match(terms, row):
             return 0
     return 1
 
-#TODO 
-# ARM lab task #2
-# ARM lab task #3
+
+
+#ARM task 2
+def compute_rule_counts(rule, table):
+    Nleft = Nright = Nboth = 0
+    Ntotal = len(table)
+    for row in table:
+        Nleft += check_row_match(rule["lhs"], row)
+        Nright += check_row_match(rule["rhs"], row)
+        Nboth += check_row_match(rule["lhs"] + rule["rhs"], row)
+
+    return Nleft, Nright, Nboth, Ntotal
+
+#ARM task 3
+def compute_rule_interestingness(rule, table):
+    Nleft, Nright, Nboth, Ntotal = compute_rule_counts(rule, table)
+    print(Nleft, Nright, Nboth, Ntotal)
+    rule["confidence"] = Nboth / Nleft
+    rule["support"] = Nboth / Ntotal
+    rule["completeness"] = Nboth / Nright
+
+for rule in [rule1, rule5]:
+    compute_rule_interestingness(rule, table)
+    print(rule)
+
+
